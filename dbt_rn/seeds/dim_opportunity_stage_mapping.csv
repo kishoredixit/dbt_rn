@@ -1,0 +1,30 @@
+StageNumber,StageName,Probability
+0,Closed Lost,0
+0,Closed,0
+0,Proprosal,0
+1,Prospecting,10
+1,Qualification,10
+1,Qualification,20
+1,Needs Analysis,20
+2,Assessment/Analysis,30
+2,Demo,50
+2,Engagement,50
+2,Value Proposition,50
+3,Proposal/Price Quote,50
+3,Id. Decision Makers,60
+3,Shaping,60
+3,Solutioning,60
+3,Perception Analysis,70
+3,Proposal/Price Quote,70
+3,Solutioning,70
+3,End Game,75
+3,Proposal/Price Quote,75
+4,Negotiation,80
+4,Negotiation,90
+4,Negotiation/Review,90
+4,Contract,90
+100,Closed - Won,100
+100,Closed Won,100
+100,Gap Closed,100
+100,Gap Commit,100
+100,Sales Proration,100

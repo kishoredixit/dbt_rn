@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: Staging
+    database: Demo
+    schema: Staging
+    tables:
+        - name: stg_opportunity
+        - name: stg_opportunityhistory
+        - name: stg_account
+        - name: stg_opportunitylineitem
+        - name: stg_contact
+        - name: stg_product2
+        - name: stg_accountcontactrole
+        - name: stg_opportunitycontactrole
+  - name: DWh
+    database: Demo
+    schema: DWh 
+    tables:
+        - name: dim_opportunity
+  - name: Recp
+    database: Demo
+    schema: Recp 
+    tables:
+        - name: kpi_sample       

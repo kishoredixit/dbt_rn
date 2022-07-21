@@ -1,0 +1,6 @@
+version: 2
+
+seeds:
+  - name: dim_opportunity_stage_mapping
+    config:
+      schema: DWh
