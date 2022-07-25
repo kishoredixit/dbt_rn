@@ -1,6 +1,6 @@
-{% macro stg_recp_sample_model(from_table,from_schema) %}
+{% macro get_column(from_table,from_schema) %}
 {%- set query -%}
-select column_name from information_schema.columns where table_name = 'stg_opportunitycompetitor' and table_schema = 'Staging'
+SELECT sourcefield, "target fieldname" FROM dynamic_config.sourcedimensionconfig ;
 {%- endset -%}
 {%- set results = run_query(query) -%}
 {%- if execute -%}
@@ -18,11 +18,10 @@ select
 "{{col}}"
 {%- endif -%}
 {%- endfor -%}
-from 
-"Staging"."stg_opportunitycompetitor"
+from {{ source("dynamic_config", "sourcedimensionconfig") }}
 ),
 final as (
-    select * from sample
+    select * from sample1
 )
 select * from final
 {% endmacro %}
