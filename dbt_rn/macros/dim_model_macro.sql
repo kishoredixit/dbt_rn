@@ -8,11 +8,14 @@
 {%- endset -%}
 --{{ print("Running get_query_sourcetable: " ~ get_query_sourcetable) }}
 {%- set get_query_results_dim -%}
-    select transformation,targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' 
+    select targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' 
 {%- endset -%}
 --{{ print("Running get_query_results_dim: " ~ get_query_results_dim) }}
 {%- set get_query_join -%}
-    select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}'
+    select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' and transformation is null
+{%- endset -%}
+{%- set get_sec_query_join -%}
+    select related_dimension,dimension_join,from_related_dimension_schema,transformation from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' and transformation is not null
 {%- endset -%}
 ---{{ print("Running get_query_join: " ~ get_query_join) }}
    {% set results = run_query(relation_query) %}
@@ -34,8 +37,8 @@
 with sample1 as (
 select
 null as d_opportunitycompetitor_key,
-{% for k,v,x,y in sql_results_dim %}
-"{{y}}"."{{x}}"."{{k}}" as "{{v}}",
+{% for v,x,y in sql_results_dim %}
+"{{y}}"."{{x}}"."{{v}}" as "{{v}}",
 {%- endfor -%}
 {% for k,v in results %}
 {%- if not loop.last -%}
@@ -51,6 +54,12 @@ a."{{k}}" as "{{v}}",
  {%- endif -%}
  {% for k,v,y in sql_results_join %}
   inner join  "{{y}}"."{{k}}"  on  "{{y}}"."{{k}}"."{{v}}" = a."{{v}}"
+ {%- endfor -%}
+ {%- if execute -%}
+ {%- set sql_sec_results_join = run_query(get_sec_query_join) -%}
+ {%- endif -%}
+ {% for k,v,y,z in sql_results_join %}
+  inner join  "{{y}}"."{{k}}"  on  "{{y}}"."{{k}}"."{{v}}" = "{{z}}"
  {%- endfor -%}
  )
 select * from sample1
