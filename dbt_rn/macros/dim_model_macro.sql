@@ -1,41 +1,57 @@
 {% macro dim_model_macro(dimtable) %}
-{%- call statement('get_query_results', fetch_result=True,auto_begin=True) -%}
-    select sourcefield,targetfield from dynamic_config.sourcedimensionconfig where from_source = 'y'
-{%- endcall -%}
-{%- call statement('get_query_sourcetable', fetch_result=True,auto_begin=True) -%}
-    select distinct sourcetable from dynamic_config.sourcedimensionconfig where from_source = 'y'
-{%- endcall -%}
-{%- set sourcetable = load_result('get_query_sourcetable')['data'] -%}
-{%- call statement('get_query_results_dim', fetch_result=True,auto_begin=True) -%}
-      select transformation,targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' 
-{%- endcall -%}
-{%- call statement('get_query_join', fetch_result=True,auto_begin=True) -%}
-         select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' 
-{%- endcall -%}
-    {%- if execute -%}
-        {%- set sql_results_table = load_result('get_query_results')['data'] -%}
-       {%- endif -%}
+{% set relation_query %}
+    select sourcefield,targetfield from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
+{% endset %}
+{{ print("Running relation_query: " ~ relation_query) }}
+{%- set get_query_sourcetable -%}
+    select distinct sourcetable from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
+{%- endset -%}
+--{{ print("Running get_query_sourcetable: " ~ get_query_sourcetable) }}
+{%- set get_query_results_dim -%}
+    select transformation,targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' 
+{%- endset -%}
+--{{ print("Running get_query_results_dim: " ~ get_query_results_dim) }}
+{%- set get_query_join -%}
+    select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}'
+{%- endset -%}
+---{{ print("Running get_query_join: " ~ get_query_join) }}
+   {% set results = run_query(relation_query) %}
+  -- {{ print("Running results: " ~ results) }}
+{% set sourcetable = run_query(get_query_sourcetable) %}
+{% if execute %}
+{# Return the first column #}
+{% set sourcetable1 = sourcetable.columns[0].values() %}
+{% else %}
+{% set sourcetable1 = [] %}
+{% endif %}
+---{{ print("Running sourcetable1: " ~ sourcetable1) }}
+{% for i in sourcetable1 %}
+{% set sourcetable2 = i %}
+--{{ print("Running sourcetable3: " ~ i) }}
+{%- endfor -%}
+--{{ print("Running sourcetable4: " ~ sourcetable2) }}
+{% set sql_results_dim = run_query(get_query_results_dim) %}
 with sample1 as (
 select
-  {%- set sql_results_dim = load_result('get_query_results_dim')['data'] -%}
+null as d_opportunitycompetitor_key,
 {% for k,v,x,y in sql_results_dim %}
 "{{y}}"."{{x}}"."{{k}}" as "{{v}}",
 {%- endfor -%}
-{% for k,v in sql_results_table %}
+{% for k,v in results %}
 {%- if not loop.last -%}
 a."{{k}}" as "{{v}}",
 {%- endif -%}
 {%- if loop.last -%}
-"{{k}}" as "{{v}}"
+"{{k}}" as "{{v}}"  
 {%- endif -%}
 {%- endfor -%}
-FROM "Recp"."recp_opportunitycompetitor" a
+ FROM "Recp".{% for i in sourcetable1 %}"{{i}}"{%- endfor -%} a 
  {%- if execute -%}
- {%- set sql_results_join = load_result('get_query_join')['data'] -%}
+ {%- set sql_results_join = run_query(get_query_join) -%}
+ {%- endif -%}
  {% for k,v,y in sql_results_join %}
   inner join  "{{y}}"."{{k}}"  on  "{{y}}"."{{k}}"."{{v}}" = a."{{v}}"
  {%- endfor -%}
- {%- endif -%}
-)
+ )
 select * from sample1
 {% endmacro %}

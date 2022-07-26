@@ -1,2 +1,2 @@
 {{ config(materialized='table') }}
-{{stg_recp_sample_model(stg_account,Staging)}}
+{{stg_recp_sample_model(stg_account)}}

@@ -1,6 +1,6 @@
-{% macro stg_recp_sample_model(from_table,from_schema) %}
+{% macro stg_recp_sample_model(from_table) %}
 {%- set query -%}
-select column_name from information_schema.columns where table_name = 'stg_opportunitycompetitor' and table_schema = 'Staging'
+select column_name from dynamic_config.custom_config where table_name = '{{from_table}}' 
 {%- endset -%}
 {%- set results = run_query(query) -%}
 {%- if execute -%}
@@ -12,14 +12,14 @@ with sample as (
 select
 {% for col in results_list %}
 {%- if not loop.last -%}
-"{{col}}",
+"{{col}}" as "{{col}}".lower(),
 {%- endif -%}
 {%- if loop.last -%}
-"{{col}}"
+"{{col}}" as "{{col}}".lower()
 {%- endif -%}
 {%- endfor -%}
 from 
-"Staging"."stg_opportunitycompetitor"
+"Staging"."{{from_table}}"
 ),
 final as (
     select * from sample
