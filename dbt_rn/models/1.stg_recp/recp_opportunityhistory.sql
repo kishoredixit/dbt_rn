@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 with recp_opportunityhistory as (
 select 
-"Id" AS opportunityhistory_key,
-"Id" AS opportunityhistory_id,
+"Id" AS d_opportunityhistory_key,
+"Id" AS opportunityhistoryid,
 "OpportunityId" as	"opportunityid",
 "StageName" as	"stagename",
 "Amount" as	"amount",

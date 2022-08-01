@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 with recp_accountcontactrole as (
 select 
-"Id"	as	"accountcontactrole_key",
-"Id"	as	"accountcontactrole_id",
+"Id"	as	"d_accountcontactrole_key",
+"Id"	as	"accountcontactroleid",
 "IsDeleted"	as	"isdeleted",
 "CreatedDate"	as	"createddate",
 "CreatedById"	as	"createdbyid",

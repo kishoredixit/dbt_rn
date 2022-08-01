@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 with recp_opportunitycontactrole as (
 select 
-"Id"	as	"opportunitycontactrole_key",
-"Id"	as	"opportunitycontactrole_id",
+"Id"	as	"d_opportunitycontactrole_key",
+"Id"	as	"opportunitycontactroleid",
 "OpportunityId"	as	"opportunityid",
 "ContactId"	as	"contactid",
 "Role"	as	"role",

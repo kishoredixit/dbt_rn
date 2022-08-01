@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 with recp_contact as (
 select 
-"Id"	as	"contact_key",
-"Id"	as	"contact_id",
+"Id"	as	"d_contact_key",
+"Id"	as	"contactid",
 "IsDeleted"	as	"isdeleted",
 "MasterRecordId"	as	"masterrecordid",
 "AccountId"	as	"accountid",

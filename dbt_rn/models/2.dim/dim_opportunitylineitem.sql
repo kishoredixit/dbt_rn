@@ -7,7 +7,7 @@
 
 with final as (
 SELECT 
-opportunitylineitem_key, opportunitylineitem_id, opportunityid, sortorder, 
+d_opportunitylineitem_key, opportunitylineitemid, opportunityid, sortorder, 
 pricebookentryid, product2id, productcode,
 "name", currencyisocode, servicedate, description, createddate, createdbyid, 
 lastmodifieddate, lastmodifiedbyid, isdeleted, accountsource, 

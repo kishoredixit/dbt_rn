@@ -1,7 +1,7 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='product_id'
+    Unique_id='productid'
     ) 
 }}
 

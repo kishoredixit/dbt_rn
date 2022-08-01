@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 with recp_product as (
 select 
-"Id"	as	"product_key",
-"Id"	as	"product_id",
+"Id"	as	"d_product_key",
+"Id"	as	"productid",
 "Name"	as	"name",
 "ProductCode"	as	"productcode",
 "Description"	as	"description",

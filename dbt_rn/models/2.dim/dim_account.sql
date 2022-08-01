@@ -1,14 +1,14 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='Id'
+    Unique_id='accountid'
     ) 
 }}
 
 with final as (
 SELECT 
-"Id" AS "account_key",
-"Id" AS "account_id",
+"Id" AS "d_account_key",
+"Id" AS "accountid",
 "AccountNumber"	as	"accountnumber",
 "AccountSource"	as	"accountsource",
 "AnnualRevenue"	as	"annualrevenue",

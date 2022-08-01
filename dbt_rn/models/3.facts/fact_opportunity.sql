@@ -1,15 +1,15 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='Id'
+    Unique_id='d_fact_opportunity_key'
     ) 
 }}
 
 with final as (
 SELECT
-"Id" as "fact_opportunity_key",
-op.opportunity_id,
-op.opportunity_key,
+"Id" as "f_fact_opportunity_key",
+op.opportunityid,
+op.d_opportunity_key,
 op.accountid,
 "StageName"	as "stagename",
 "Amount" as "amount",
@@ -20,9 +20,9 @@ op.accountid,
 "CurrencyIsoCode" as 	"currencyisocode"  ,
 Null AS "fiscalQuarter_id",
 NUll AS "fiscalYear_id"
-FROM {{ ref('recp_opportunity') }} rop
+FROM {{ source('Staging','stg_opportunity') }} rop
 inner join {{ ref('dim_opportunity') }} op
 on
-op.opportunity_id=rop."Id"
+op.opportunityid=rop."Id"
 )
 select * from final

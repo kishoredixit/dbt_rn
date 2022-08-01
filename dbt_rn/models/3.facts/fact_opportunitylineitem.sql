@@ -1,13 +1,14 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='Id'
+    Unique_id='opportunitylineitemid'
     ) 
 }}
 
 with final as (
 SELECT 
-opportunitylineitem_id,
+opportunitylineitemid as f_fact_opportunitylineitem_key,
+opportunitylineitemid,
 opportunityid,
 quantity,
 totalprice,

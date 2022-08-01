@@ -13,6 +13,7 @@ sources:
         - name: stg_product2
         - name: stg_accountcontactrole
         - name: stg_opportunitycontactrole
+        - name: stg_fcst_score_card__c
   - name: DWh
     database: Demo
     schema: DWh 

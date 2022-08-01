@@ -2,8 +2,8 @@
 with recp_opportunitylineitem as 
 (
 select 
-"Id" AS opportunitylineitem_key,
-"Id" AS opportunitylineitem_id,
+"Id" AS d_opportunitylineitem_key,
+"Id" AS opportunitylineitemid,
 "OpportunityId"	as	"opportunityid",
 "SortOrder"	as	"sortorder",
 "PricebookEntryId"	as	"pricebookentryid",
