@@ -1,7 +1,8 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='opportunitycontactroleid'
+    Unique_id='opportunitycontactroleid',
+    post_hook=" delete from {{ this }} where opportunitycontactroleid in (select opportunitycontactroleid FROM {{ ref('recp_opportunitycontactrole') }} where isdeleted = 'y')"
     ) 
 }}
 

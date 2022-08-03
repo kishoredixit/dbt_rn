@@ -1,13 +1,14 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='opportunitylineitemid'
+    Unique_id='opportunitylineitemid',
+    post_hook=" delete from {{ this }} where opportunitylineitemid in (select opportunitylineitemid FROM {{ ref('recp_opportunitylineitem') }} where isdeleted = 'y')"
     ) 
 }}
 
 with final as (
 SELECT 
-opportunitylineitemid as f_fact_opportunitylineitem_key,
+dim_opportunitylineitem_key AS fact_opportunitylineitem_key,
 opportunitylineitemid,
 opportunityid,
 quantity,

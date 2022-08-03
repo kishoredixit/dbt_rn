@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 with recp_opportunityhistory as (
 select 
-"Id" AS d_opportunityhistory_key,
+{{ md5_surrogatekey('Id') }} AS fact_opportunityhistory_key,
 "Id" AS opportunityhistoryid,
 "OpportunityId" as	"opportunityid",
 "StageName" as	"stagename",

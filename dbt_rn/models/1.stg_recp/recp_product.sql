@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 with recp_product as (
 select 
-"Id"	as	"d_product_key",
+{{ md5_surrogatekey('Id') }} AS "dim_product_key",
 "Id"	as	"productid",
 "Name"	as	"name",
 "ProductCode"	as	"productcode",

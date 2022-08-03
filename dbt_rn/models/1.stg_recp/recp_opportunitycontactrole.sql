@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 with recp_opportunitycontactrole as (
 select 
-"Id"	as	"d_opportunitycontactrole_key",
+{{ md5_surrogatekey('Id') }} AS "dim_opportunitycontactrole_key",
 "Id"	as	"opportunitycontactroleid",
 "OpportunityId"	as	"opportunityid",
 "ContactId"	as	"contactid",

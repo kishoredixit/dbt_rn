@@ -1,20 +1,24 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='Id'
+    Unique_id='opportunitylineitemid',
+    post_hook=" delete from {{ this }} where opportunitylineitemid in (select opportunitylineitemid FROM {{ ref('recp_opportunitylineitem') }} where isdeleted = 'y')"
     ) 
 }}
 
 with final as (
 SELECT 
-d_opportunitylineitem_key, opportunitylineitemid, opportunityid, sortorder, 
+dim_opportunitylineitem_key, opportunitylineitemid, op.opportunityid,op.dim_opportunity_key, sortorder, 
 pricebookentryid, product2id, productcode,
-"name", currencyisocode, servicedate, description, createddate, createdbyid, 
-lastmodifieddate, lastmodifiedbyid, isdeleted, accountsource, 
-canusequantityschedule, canuserevenueschedule, 
-connectionreceivedid, connectionsentid, discount, hasquantityschedule, 
-hasrevenueschedule, hasschedule, lastreferenceddate, 
-lastvieweddate, productid,  pk, executiondate
-FROM {{ ref('recp_opportunitylineitem') }}
+ol."name", ol.currencyisocode, ol.servicedate, ol.description, ol.createddate, ol.createdbyid, 
+ol.lastmodifieddate, ol.lastmodifiedbyid, ol.isdeleted, ol.accountsource, 
+ol.canusequantityschedule, canuserevenueschedule, 
+ol.connectionreceivedid, ol.connectionsentid, ol.discount, ol.hasquantityschedule, 
+ol.hasrevenueschedule, ol.hasschedule, ol.lastreferenceddate, 
+ol.lastvieweddate, ol.productid,  ol.pk, ol.executiondate
+FROM {{ ref('recp_opportunitylineitem') }} ol
+inner join {{ref('dim_opportunity')}} op
+on 
+op.opportunityid=ol.opportunityid
    )
 select * from final

@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 with recp_accountcontactrole as (
 select 
-"Id"	as	"d_accountcontactrole_key",
+{{ md5_surrogatekey('Id') }} AS "dim_accountcontactrole_key",
 "Id"	as	"accountcontactroleid",
 "IsDeleted"	as	"isdeleted",
 "CreatedDate"	as	"createddate",

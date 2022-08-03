@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 with recp_contact as (
 select 
-"Id"	as	"d_contact_key",
+{{ md5_surrogatekey('Id') }} AS "dim_contact_key",
 "Id"	as	"contactid",
 "IsDeleted"	as	"isdeleted",
 "MasterRecordId"	as	"masterrecordid",

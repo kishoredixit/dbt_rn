@@ -1,23 +1,23 @@
 {% macro dim_model_macro(dimtable) %}
  {%- set keycolumn = dimtable -%}
 {% set relation_query %}
-    select sourcefield,targetfield from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
+	select sourcefield,targetfield from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
 {% endset %}
 {{ print("Running relation_query: " ~ relation_query) }}
 {%- set get_query_sourcetable -%}
-    select distinct sourcetable from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
+	select distinct sourcetable from dynamic_config.sourcedimensionconfig where from_source = 'y' and table_name = '{{dimtable}}'
 {%- endset -%}
 --{{ print("Running get_query_sourcetable: " ~ get_query_sourcetable) }}
 {%- set get_query_results_dim -%}
-    select targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' 
+	select targetfield,related_dimension,from_related_dimension_schema from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and table_name = '{{dimtable}}' 
 {%- endset -%}
 --{{ print("Running get_query_results_dim: " ~ get_query_results_dim) }}
 {%- set get_query_join -%}
-    select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig 
-    where from_related_dimension = 'y' and transformation_column is null and transformation_table is null and table_name = '{{dimtable}}'  
+	select related_dimension,dimension_join,from_related_dimension_schema from dynamic_config.sourcedimensionconfig 
+	where from_related_dimension = 'y' and transformation_column is null and transformation_table is null and table_name = '{{dimtable}}'  
 {%- endset -%}
 {%- set get_sec_query_join -%}
-    select related_dimension,dimension_join,from_related_dimension_schema,transformation_table,transformation_column from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and transformation_table is not null and table_name = '{{dimtable}}' 
+	select related_dimension,dimension_join,from_related_dimension_schema,transformation_table,transformation_column from dynamic_config.sourcedimensionconfig where from_related_dimension = 'y' and transformation_table is not null and table_name = '{{dimtable}}' 
 {%- endset -%}
 {{ print("Running get_sec_query_join: " ~ get_sec_query_join) }}
    {% set results = run_query(relation_query) %}
@@ -36,9 +36,18 @@
 {%- endfor -%}
 --{{ print("Running sourcetable4: " ~ sourcetable2) }}
 {% set sql_results_dim = run_query(get_query_results_dim) %}
+{%- set deletequery -%}
+select targetschema,table_name,source_schema,sourcetable from dynamic_config.sourcedimensionconfig 
+{%- endset -%}
+{% set deleteresults = run_query(deletequery) %}
+{% for targetschema,table_name,source_schema,sourcetable in deleteresults %}
+{{ print("Running deleteresults: " ~ deleteresults) }}
+{% endfor %}
+{{ isdeleted('targetschema','table_name','source_schema','sourcetable') }}
+
 with sample1 as (
 select
-null as {{keycolumn}}_key,
+{{ md5_surrogatekey('id') }} as {{keycolumn}}_key,
 {%- for v,x,y in sql_results_dim -%}
 "{{y}}"."{{x}}"."{{v}}" as "{{v}}",
 {%- endfor -%}

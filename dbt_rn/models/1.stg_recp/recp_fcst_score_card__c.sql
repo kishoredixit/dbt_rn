@@ -3,7 +3,7 @@ with recp_fcst_score_card__c as
 (
 select 
 "id" as	"fcst_score_card_id",
-"id" as	"fcst_score_card_key",
+{{ md5_surrogatekey('id') }} AS "fcst_score_card_key",
 "isdeleted"	as	"isdeleted",
 "name" as	"name",
 "createddate" as	"createddate",

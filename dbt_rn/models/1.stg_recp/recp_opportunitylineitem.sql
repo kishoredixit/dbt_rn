@@ -2,7 +2,7 @@
 with recp_opportunitylineitem as 
 (
 select 
-"Id" AS d_opportunitylineitem_key,
+{{ md5_surrogatekey('Id') }} AS dim_opportunitylineitem_key,
 "Id" AS opportunitylineitemid,
 "OpportunityId"	as	"opportunityid",
 "SortOrder"	as	"sortorder",

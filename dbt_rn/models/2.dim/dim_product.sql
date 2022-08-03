@@ -1,7 +1,8 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='productid'
+    Unique_id='productid',
+    post_hook=" delete from {{ this }} where productid in (select productid FROM {{ ref('recp_product') }} where isdeleted = 'y')"
     ) 
 }}
 

@@ -1,15 +1,16 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='d_fact_opportunity_key'
+    Unique_id='fact_opportunity_key',
+    post_hook=" delete from {{ this }} where contactid in (select contactid FROM {{ ref('recp_contact') }} where isdeleted = 'y')"
     ) 
 }}
 
 with final as (
 SELECT
-"Id" as "f_fact_opportunity_key",
+{{ md5_surrogatekey('Id') }} AS "fact_opportunity_key",
 op.opportunityid,
-op.d_opportunity_key,
+op.dim_opportunity_key,
 op.accountid,
 "StageName"	as "stagename",
 "Amount" as "amount",
@@ -17,7 +18,7 @@ op.accountid,
 "ExpectedRevenue" as "expectedrevenue" ,
 "TotalOpportunityQuantity" as "totalopportunityquantity" ,
 "CloseDate" as "closedate" ,
-"CurrencyIsoCode" as 	"currencyisocode"  ,
+"CurrencyIsoCode" as "currencyisocode"  ,
 Null AS "fiscalQuarter_id",
 NUll AS "fiscalYear_id"
 FROM {{ source('Staging','stg_opportunity') }} rop
