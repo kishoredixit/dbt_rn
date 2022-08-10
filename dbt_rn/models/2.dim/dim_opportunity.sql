@@ -10,7 +10,7 @@ with final as (
 SELECT 
 {{ md5_surrogatekey('id') }} AS "dim_opportunity_key",
 "id" as "opportunityid",
-ac."isdeleted"	as "isdeleted",
+op."isdeleted"	as "isdeleted",
 ac.accountid,
 ac.dim_account_key,
 op."name"	as "name",

@@ -8,7 +8,7 @@
 
 with final as (
 SELECT 
-dim_opportunitylineitem_key, opportunitylineitemid, op.opportunityid,op.dim_opportunity_key, sortorder, 
+{{ md5_surrogatekey('opportunitylineitemid') }} d_opportunitylineitem_key, opportunitylineitemid, op.opportunityid,op.d_opportunity_key, sortorder, 
 pricebookentryid, product2id, productcode,
 ol."name", ol.currencyisocode, ol.servicedate, ol.description, ol.createddate, ol.createdbyid, 
 ol.lastmodifieddate, ol.lastmodifiedbyid, ol.isdeleted, ol.accountsource, 

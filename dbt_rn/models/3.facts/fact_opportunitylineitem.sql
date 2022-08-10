@@ -17,6 +17,12 @@ unitprice,
 listprice,
 recalculatetotalprice,
 subtotal
-FROM {{ ref('recp_opportunitylineitem') }} 
+FROM {{ ref('recp_opportunitylineitem') }} o
+inner join {{ref('dim_opportunitylineitem')}} ol
+on 
+o.opportunitylineitemid=ol.opportunitylineitemid
+inner join {{ref('dim_opportunity')}} op
+on 
+op.opportunityid=ol.opportunityid
 )
 select * from final

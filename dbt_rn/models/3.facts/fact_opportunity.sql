@@ -1,8 +1,8 @@
 {{ config(
     materialized="incremental",
     schema="DWh",
-    Unique_id='fact_opportunity_key',
-    post_hook=" delete from {{ this }} where contactid in (select contactid FROM {{ ref('recp_contact') }} where isdeleted = 'y')"
+    Unique_id='opportunityid',
+    post_hook=" delete from {{ this }} where opportunityid in (select opportunityid FROM {{ ref('recp_opportunity') }} where isdeleted = 'y')"
     ) 
 }}
 
@@ -21,9 +21,12 @@ op.accountid,
 "CurrencyIsoCode" as "currencyisocode"  ,
 Null AS "fiscalQuarter_id",
 NUll AS "fiscalYear_id"
-FROM {{ source('Staging','stg_opportunity') }} rop
+FROM {{ source('Recp','recp_opportunity') }} rop
 inner join {{ ref('dim_opportunity') }} op
 on
 op.opportunityid=rop."Id"
+inner join {{ ref('dim_account') }} op
+on
+op.accountid=rop."accountid"
 )
 select * from final
