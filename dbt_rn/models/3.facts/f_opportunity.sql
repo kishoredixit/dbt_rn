@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {{ config( materialized="incremental", schema="dwh", Unique_id='fact_opportunity_key', post_hook=" delete from {{ this }} where contactid in (select contactid FROM {{ ref('recp_contact') }} where isdeleted = 'y')" ) }} with final as
     (SELECT {{ md5_surrogatekey('Id') }} AS "fact_opportunity_key",
                                        op.opportunityid,

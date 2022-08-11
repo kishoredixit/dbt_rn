@@ -19,7 +19,7 @@ sources:
     database: Demo
     schema: dwh 
     tables:
-        - name: dim_opportunity
+        - name: d_opportunity
   - name: recp
     database: Demo
     schema: recp 
