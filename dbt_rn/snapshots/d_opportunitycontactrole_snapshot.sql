@@ -2,8 +2,8 @@
 {{
     config(
         target_database='Demo',
-        target_schema='DWh',
-        unique_key='opportunitycontactrole_id',
+        target_schema='dwh',
+        unique_key='opportunitycontactroleid',
         
         strategy='check',
         check_cols= 'all'
@@ -13,6 +13,6 @@
 
 select 
 * 
-FROM {{ ref('dim_opportunitycontactrole') }}
+FROM {{ ref('d_opportunitycontactrole') }}
 
 {% endsnapshot %}

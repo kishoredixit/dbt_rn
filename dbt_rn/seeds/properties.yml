@@ -1,6 +1,6 @@
 version: 2
 
 seeds:
-  - name: dim_opportunity_stage_mapping
+  - name: d_opportunity_stage_mapping
     config:
-      schema: DWh
+      schema: dWh

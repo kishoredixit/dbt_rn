@@ -36,15 +36,6 @@
 {%- endfor -%}
 --{{ print("Running sourcetable4: " ~ sourcetable2) }}
 {% set sql_results_dim = run_query(get_query_results_dim) %}
-{%- set deletequery -%}
-select targetschema,table_name,source_schema,sourcetable from dynamic_config.sourcedimensionconfig 
-{%- endset -%}
-{% set deleteresults = run_query(deletequery) %}
-{% for targetschema,table_name,source_schema,sourcetable in deleteresults %}
-{{ print("Running deleteresults: " ~ deleteresults) }}
-{% endfor %}
-{{ isdeleted('targetschema','table_name','source_schema','sourcetable') }}
-
 with sample1 as (
 select
 {{ md5_surrogatekey('id') }} as {{keycolumn}}_key,
@@ -59,7 +50,7 @@ a."{{k}}" as "{{v}}",
 a."{{k}}" as "{{v}}"  
 {%- endif -%}
 {% endfor %}
- FROM "Recp".{% for i in sourcetable1 %}"{{i}}"{% endfor %} a  
+ FROM "recp".{% for i in sourcetable1 %}"{{i}}"{% endfor %} a  
  {%- if execute -%}
  {%- set sql_results_join = run_query(get_query_join) -%}
  {{ print("Running sql_results_join: " ~ sql_results_join) }}

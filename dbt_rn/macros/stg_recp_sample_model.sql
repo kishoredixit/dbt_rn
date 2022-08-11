@@ -20,7 +20,7 @@ select
 {%- endif -%}
 {%- endfor -%}
 from 
-"Staging"."stg_{{from_table}}"
+"staging"."stg_{{from_table}}"
 ),
 final as (
     select * from sample

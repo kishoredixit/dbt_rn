@@ -2,8 +2,8 @@
 {{
     config(
         target_database='Demo',
-        target_schema='DWh',
-        unique_key='opportunity_id',
+        target_schema='dwh',
+        unique_key='opportunityid',
         
         strategy='check',
         check_cols= 'all'
@@ -13,6 +13,6 @@
 
 select 
 * 
-FROM {{ ref('dim_opportunity') }}
+FROM {{ ref('d_opportunity') }}
 
 {% endsnapshot %}

@@ -1,9 +1,9 @@
-{% snapshot dim_account_snapshot%}
+{% snapshot dim_contact_snapshot%}
 {{
     config(
         target_database='Demo',
-        target_schema='DWh',
-        unique_key='account_id',
+        target_schema='dwh',
+        unique_key='contactid',
         
         strategy='check',
         check_cols= 'all'
@@ -13,6 +13,6 @@
 
 select 
 * 
-FROM {{ ref('dim_account') }}
+FROM {{ ref('d_contact') }}
 
 {% endsnapshot %}

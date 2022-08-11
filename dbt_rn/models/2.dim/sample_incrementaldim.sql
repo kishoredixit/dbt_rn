@@ -1,8 +1,2 @@
-{{ config(
-    materialized="incremental",
-    schema="DWh",
-    Unique_id='id'
-    ) 
-}}
-
-{{dim_model_macro('dim_opportunity')}}
+{{ config( materialized="incremental", schema="dwh", Unique_id='id' ) }} 
+{{dim_model_macro('d_opportunity')}}

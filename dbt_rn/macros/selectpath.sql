@@ -22,7 +22,7 @@ FROM {{ ref('recp_opportunity') }} a
  {%- if execute -%}
  {%- set sql_results_join = load_result('get_query_join')['data'] -%}
  {% for k,v in sql_results_join %}
-  inner join  "DWh"."{{k}}"  on  "DWh"."{{k}}"."{{v}}" = a."{{v}}"
+  inner join  "dwh"."{{k}}"  on  "dwh"."{{k}}"."{{v}}" = a."{{v}}"
  {%- endfor -%}
  {%- endif -%}
 )

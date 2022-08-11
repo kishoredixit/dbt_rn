@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: Staging
+  - name: staging
     database: Demo
-    schema: Staging
+    schema: staging
     tables:
         - name: stg_opportunity
         - name: stg_opportunityhistory
@@ -14,13 +14,14 @@ sources:
         - name: stg_accountcontactrole
         - name: stg_opportunitycontactrole
         - name: stg_fcst_score_card__c
-  - name: DWh
+        - name: loadexecution_detail
+  - name: dwh
     database: Demo
-    schema: DWh 
+    schema: dwh 
     tables:
         - name: dim_opportunity
-  - name: Recp
+  - name: recp
     database: Demo
-    schema: Recp 
+    schema: recp 
     tables:
         - name: kpi_sample       
